@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Void AI Vusion</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌀</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav role="tablist" aria-label="Mode">
+  <div class="logo"><div class="orb"></div><div>Void AI<br>Vusion</div></div>
+  <button class="tab" role="tab" aria-selected="true" data-t="chat"><span>💬</span>Chat</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="image"><span>🎨</span>Gambar</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="music"><span>🎧</span>Musik</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="build"><span>⚡</span>Bikin App</button>
+  <div class="spacer"></div>
+  <button class="gear" id="openSet">⚙ Setelan</button>
+</nav>
+
+<main>
+  <!-- CHAT -->
+  <section id="chat" class="on">
+    <div id="log">
+      <div class="hero" id="hero">
+        <h1>Mau bahas apa hari ini?</h1>
+        <p class="sub">Tanya apa saja, minta bantuan tugas, curhat ide, atau debug kode.</p>
+        <div class="chips">
+          <button class="chip">Jelasin blockchain pakai bahasa gaul</button>
+          <button class="chip">Bikin jadwal belajar 1 minggu</button>
+          <button class="chip">Caption IG buat foto healing</button>
+        </div>
+      </div>
+    </div>
+    <div class="bar">
+      <textarea id="chatIn" rows="1" placeholder="Ketik pesan… (Enter kirim, Shift+Enter baris baru)"></textarea>
+      <button class="go" id="chatGo">Kirim</button>
+    </div>
+  </section>
+
+  <!-- IMAGE -->
+  <section id="image">
+    <h1>Gambar dari kata-kata</h1>
+    <p class="sub">Deskripsikan visualnya, pilih gaya, lalu generate.</p>
+    <div class="bar">
+      <textarea id="imgIn" rows="2" placeholder="Kucing astronot duduk di bulan neon…"></textarea>
+      <button class="go" id="imgGo">Generate</button>
+    </div>
+    <div class="row">
+      <select id="imgStyle">
+        <option value="">Gaya bebas</option>
+        <option value="y2k chrome, glossy, vaporwave">Y2K</option>
+        <option value="anime key visual, vibrant">Anime</option>
+        <option value="3d clay render, soft lighting">3D Clay</option>
+        <option value="cinematic photo, 35mm film grain">Sinematik</option>
+        <option value="pixel art, 16-bit">Pixel</option>
+      </select>
+      <select id="imgRatio">
+        <option value="1024x1024">1:1</option>
+        <option value="768x1344">9:16</option>
+        <option value="1344x768">16:9</option>
+      </select>
+      <a class="ghost" id="imgDl" style="display:none;text-decoration:none" target="_blank" rel="noopener">Buka / simpan</a>
+    </div>
+    <div id="imgbox">Hasilnya muncul di sini</div>
+  </section>
+
+  <!-- MUSIC -->
+  <section id="music">
+    <h1>Lagu dari vibe-mu</h1>
+    <p class="sub">AI menulis judul dan lirik, lalu beat demo dimainkan langsung di browser.</p>
+    <div class="bar">
+      <textarea id="musIn" rows="2" placeholder="Lagu galau tengah malam habis di-ghosting…"></textarea>
+      <button class="go" id="musGo">Buat lagu</button>
+    </div>
+    <div class="row">
+      <select id="musGenre">
+        <option>Pop</option><option>Lo-fi</option><option>Hip-hop</option><option>EDM</option><option>Rock</option><option>Dangdut koplo</option>
+      </select>
+    </div>
+    <div class="deck" id="musOut" hidden>
+      <h2 id="musTitle"></h2>
+      <div class="eq" id="eq"></div>
+      <button class="ghost" id="musPlay">▶ Putar beat</button>
+      <pre id="musLy"></pre>
+    </div>
+  </section>
+
+  <!-- BUILDER -->
+  <section id="build">
+    <h1>Ketik ide, jadi app</h1>
+    <p class="sub">Jelaskan web atau game yang kamu mau. Hasilnya langsung bisa dicoba dan diunduh.</p>
+    <div class="bar">
+      <textarea id="bldIn" rows="2" placeholder="Aplikasi to-do list warna neon dengan mode gelap…"></textarea>
+      <button class="go" id="bldGo">Bangun</button>
+    </div>
+    <div class="split">
+      <header>
+        <button class="ghost" id="vPrev" aria-pressed="true">Preview</button>
+        <button class="ghost" id="vCode" aria-pressed="false">Kode</button>
+        <span style="flex:1"></span>
+        <button class="ghost" id="bldCopy">Salin</button>
+        <button class="ghost" id="bldDl">Unduh .html</button>
+      </header>
+      <div class="empty" id="bldEmpty">Preview app muncul di sini</div>
+      <iframe id="frame" sandbox="allow-scripts allow-forms allow-modals" style="display:none" title="Preview app"></iframe>
+      <textarea id="code" spellcheck="false"></textarea>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlg">
+  <h2>Setelan AI</h2>
+  <p>Bawaan: layanan gratis Pollinations, tanpa API key. Kalau mau pakai model lain (OpenAI, Gemini, dll.), isi endpoint yang kompatibel dengan format OpenAI. Key disimpan hanya di browser-mu.</p>
+  <label>Endpoint (opsional)<input type="text" id="sEnd" placeholder="https://api.openai.com/v1/chat/completions"></label>
+  <label>API key (opsional)<input type="password" id="sKey" autocomplete="off"></label>
+  <label>Nama model (opsional)<input type="text" id="sMod" placeholder="openai"></label>
+  <div class="row" style="justify-content:flex-end;margin-top:18px">
+    <button class="ghost" id="sClose">Batal</button>
+    <button class="go" id="sSave">Simpan</button>
+  </div>
+</dialog>
+
+<script src="js/config.js"></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
